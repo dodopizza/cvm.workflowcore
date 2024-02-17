@@ -55,6 +55,9 @@ namespace WorkflowCore.Services.BackgroundTasks
                     finally
                     {
                         WorkflowActivity.Enrich(result);
+                        var updatedWorkflow = await _persistenceStore.GetWorkflowInstance(itemId, cancellationToken);
+                        updatedWorkflow.ExecutionPointers = workflow.ExecutionPointers;
+                        workflow = updatedWorkflow;
                         await _persistenceStore.PersistWorkflow(workflow, result?.Subscriptions, cancellationToken);
                         await QueueProvider.QueueWork(itemId, QueueType.Index);
                         _greylist.Remove($"wf:{itemId}");
