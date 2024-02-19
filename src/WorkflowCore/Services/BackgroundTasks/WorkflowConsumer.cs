@@ -31,12 +31,6 @@ namespace WorkflowCore.Services.BackgroundTasks
 
         protected override async Task ProcessItem(string itemId, CancellationToken cancellationToken)
         {
-            if (!await _lockProvider.AcquireLock(itemId, cancellationToken))
-            {
-                Logger.LogInformation("Workflow locked {ItemId}", itemId);
-                return;
-            }
-
             WorkflowInstance workflow = null;
             WorkflowExecutorResult result = null;
 
@@ -55,6 +49,11 @@ namespace WorkflowCore.Services.BackgroundTasks
                     finally
                     {
                         WorkflowActivity.Enrich(result);
+
+                        if (!await TryAcquireLock(itemId, cancellationToken))
+                        {
+                            Logger.LogWarning("Failed to lock {ItemId}", itemId);
+                        }
                         var updatedWorkflow = await _persistenceStore.GetWorkflowInstance(itemId, cancellationToken);
                         updatedWorkflow.ExecutionPointers = workflow.ExecutionPointers;
                         workflow = updatedWorkflow;
@@ -99,6 +98,23 @@ namespace WorkflowCore.Services.BackgroundTasks
                 }
             }
 
+        }
+
+        private async Task<bool> TryAcquireLock(string itemId, CancellationToken cancellationToken)
+        {
+            var attempts = 0;
+            while (attempts < 10)
+            {
+                if (await _lockProvider.AcquireLock(itemId, cancellationToken))
+                {
+                    return true;
+                }
+
+                await Task.Delay(Options.IdleTime, cancellationToken);
+                attempts++;
+            }
+
+            return false;
         }
 
         private async Task TryProcessSubscription(EventSubscription subscription, IPersistenceProvider persistenceStore, CancellationToken cancellationToken)
