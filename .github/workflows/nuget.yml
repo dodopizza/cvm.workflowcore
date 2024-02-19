@@ -46,7 +46,7 @@ jobs:
         run: dotnet build $PROJECT_WORKFLOWCORE --configuration Release --no-restore
 
       - name: Pack
-        run: dotnet pack $PROJECT_WORKFLOWCORE --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:Version=${{ steps.extract_version.outputs.VERSION }}
+        run: dotnet pack $PROJECT_WORKFLOWCORE --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.WorkflowCore" -p:Version=${{ steps.extract_version.outputs.VERSION }}
 
       - name: Push NuGet Package
         run: dotnet nuget push ./artifacts/nuget/cvm.workflowcore/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
