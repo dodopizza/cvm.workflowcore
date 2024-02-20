@@ -45,32 +45,32 @@ jobs:
         id: extract_version
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/Release\//}" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies for '${{ PKG_NAME_WORKFLOWCORE }}'
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE }}'
         run: dotnet restore $PROJECT_WORKFLOWCORE
 
-      - name: Restore dependencies for '${{ PKG_NAME_WORKFLOWCORE_MONGODB }}'
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
         run: dotnet restore $PROJECT_WORKFLOWCORE_MONGODB
 
-      - name: Restore dependencies for '${{ PKG_NAME_WORKFLOWCORE_DSL }}'
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
         run: dotnet restore $PROJECT_WORKFLOWCORE_DSL
 
-      - name: Build '${{ PKG_NAME_WORKFLOWCORE }}'
+      - name: Build '${{ env.PKG_NAME_WORKFLOWCORE }}'
         run: dotnet build $PROJECT_WORKFLOWCORE --configuration Release --no-restore
 
-      - name: Build '${{ PKG_NAME_WORKFLOWCORE_MONGODB }}'
+      - name: Build '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
         run: dotnet build $PROJECT_WORKFLOWCORE_MONGODB --configuration Release --no-restore
 
-      - name: Build '${{ PKG_NAME_WORKFLOWCORE_DSL }}'
+      - name: Build '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
         run: dotnet build $PROJECT_WORKFLOWCORE_DSL --configuration Release --no-restore
 
-      - name: Pack '${{ PKG_NAME_WORKFLOWCORE }}'
-        run: dotnet pack $PROJECT_WORKFLOWCORE --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ PKG_NAME_WORKFLOWCORE }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+      - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE }}'
+        run: dotnet pack $PROJECT_WORKFLOWCORE --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
 
-      - name: Pack '${{ PKG_NAME_WORKFLOWCORE_MONGODB }}'
-        run: dotnet pack $PROJECT_WORKFLOWCORE_MONGODB --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ PKG_NAME_WORKFLOWCORE_MONGODB }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+      - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
+        run: dotnet pack $PROJECT_WORKFLOWCORE_MONGODB --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
 
-      - name: Pack '${{ PKG_NAME_WORKFLOWCORE_DSL }}'
-        run: dotnet pack $PROJECT_WORKFLOWCORE_DSL --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ PKG_NAME_WORKFLOWCORE_DSL }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+      - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
+        run: dotnet pack $PROJECT_WORKFLOWCORE_DSL --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_DSL }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
 
       #- name: Push NuGet Packages
       #  run: dotnet nuget push ./artifacts/nuget/cvm.workflowcore/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
