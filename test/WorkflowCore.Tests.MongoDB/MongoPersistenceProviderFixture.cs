@@ -1,6 +1,4 @@
 ﻿using System;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 using WorkflowCore.Interface;
 using WorkflowCore.Persistence.MongoDB.Services;
 using WorkflowCore.UnitTests;
@@ -12,14 +10,6 @@ namespace WorkflowCore.Tests.MongoDB
     public class MongoPersistenceProviderFixture : BasePersistenceFixture
     {
         private readonly MongoDockerSetup _dockerSetup;
-
-        static MongoPersistenceProviderFixture()
-        {
-            BsonSerializer.RegisterSerializer(
-                new ObjectSerializer(
-                    type => type.FullName.StartsWith("WorkflowCore.UnitTests")
-                            || type.FullName.StartsWith("WorkflowCore.IntegrationTests")));
-        }
 
         public MongoPersistenceProviderFixture(MongoDockerSetup dockerSetup)
         {
