@@ -33,6 +33,11 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare to install packages
+        id: prepare-to-install
+        run: |
+          dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "${{ secrets.NUGET_SOURCE }}"
+
       - name: Restore NuGet cache
         uses: actions/cache@v3
         with:
@@ -45,14 +50,8 @@ jobs:
         id: extract_version
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/Release\//}" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE }}'
-        run: dotnet restore $PROJECT_WORKFLOWCORE
-
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
-        run: dotnet restore $PROJECT_WORKFLOWCORE_MONGODB
-
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
-        run: dotnet restore $PROJECT_WORKFLOWCORE_DSL
+      - name: Restore dependencies
+        run: dotnet restore WorkflowCore.sln
 
       - name: Build '${{ env.PKG_NAME_WORKFLOWCORE }}'
         run: dotnet build $PROJECT_WORKFLOWCORE --configuration Release --no-restore
