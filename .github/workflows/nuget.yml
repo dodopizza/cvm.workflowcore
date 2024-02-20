@@ -72,5 +72,5 @@ jobs:
       - name: Pack '${{ PKG_NAME_WORKFLOWCORE_DSL }}'
         run: dotnet pack $PROJECT_WORKFLOWCORE_DSL --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ PKG_NAME_WORKFLOWCORE_DSL }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
 
-      - name: Push NuGet Packages
-        run: dotnet nuget push ./artifacts/nuget/cvm.workflowcore/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+      #- name: Push NuGet Packages
+      #  run: dotnet nuget push ./artifacts/nuget/cvm.workflowcore/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
