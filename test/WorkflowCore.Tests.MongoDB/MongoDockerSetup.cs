@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoDB.Bson;
+using MongoDB.Driver;
 using Squadron;
 using Xunit;
 
@@ -8,12 +8,13 @@ namespace WorkflowCore.Tests.MongoDB
 {
     public class MongoDockerSetup : IAsyncLifetime
     {
-        private readonly MongoResource _mongoResource;
-        public static string ConnectionString { get; set; }
+        private readonly MongoReplicaSetResource _mongoResource;
+        public static string ConnectionString { get; private set; }
+        public IMongoClient Client => _mongoResource.Client;
 
         public MongoDockerSetup()
         {
-            _mongoResource = new MongoResource();
+            _mongoResource = new MongoReplicaSetResource();
         }
 
         public async Task InitializeAsync()

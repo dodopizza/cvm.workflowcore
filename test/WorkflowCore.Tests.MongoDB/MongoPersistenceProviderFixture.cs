@@ -1,5 +1,4 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using WorkflowCore.Interface;
@@ -12,7 +11,7 @@ namespace WorkflowCore.Tests.MongoDB
     [Collection("Mongo collection")]
     public class MongoPersistenceProviderFixture : BasePersistenceFixture
     {
-        MongoDockerSetup _dockerSetup;
+        private readonly MongoDockerSetup _dockerSetup;
 
         static MongoPersistenceProviderFixture()
         {
@@ -31,8 +30,7 @@ namespace WorkflowCore.Tests.MongoDB
         {
             get
             {
-                var client = new MongoClient(MongoDockerSetup.ConnectionString);
-                var db = client.GetDatabase(nameof(MongoPersistenceProviderFixture));
+                var db = _dockerSetup.Client.GetDatabase(nameof(MongoPersistenceProviderFixture));
                 return new MongoPersistenceProvider(db);
             }
         }
