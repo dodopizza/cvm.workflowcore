@@ -47,8 +47,14 @@ jobs:
         id: extract_version
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/Release\//}" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies
-        run: dotnet restore WorkflowCore.sln
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE }}'
+        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE }}
+
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
+        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE_MONGODB }}
+
+      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
+        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE_DSL }}
 
       - name: Build '${{ env.PKG_NAME_WORKFLOWCORE }}'
         run: dotnet build $PROJECT_WORKFLOWCORE --configuration Release --no-restore
