@@ -47,13 +47,13 @@ jobs:
         run: dotnet build ${{ env.PROJECT_WORKFLOWCORE_DSL }} --configuration Release --no-restore
 
       - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE }}'
-        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageId="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE }}" -p:Version=${{ steps.extract_version.outputs.VERSION }} --verbosity detailed
 
       - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
-        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE_MONGODB }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE_MONGODB }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageId="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}" -p:Version=${{ steps.extract_version.outputs.VERSION }} --verbosity detailed
 
       - name: Pack '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
-        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE_DSL }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageID="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_DSL }}" -p:Version=${{ steps.extract_version.outputs.VERSION }}
+        run: dotnet pack ${{ env.PROJECT_WORKFLOWCORE_DSL }} --configuration Release --output ./artifacts/nuget/cvm.workflowcore -p:PackageId="Dodo.Cvm.${{ env.PKG_NAME_WORKFLOWCORE_DSL }}" -p:Version=${{ steps.extract_version.outputs.VERSION }} --verbosity detailed
 
       #- name: Push NuGet Packages
       #  run: dotnet nuget push ./artifacts/nuget/cvm.workflowcore/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
