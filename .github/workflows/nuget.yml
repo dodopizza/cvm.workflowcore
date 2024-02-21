@@ -30,31 +30,12 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Prepare to install packages
-        id: prepare-to-install
-        run: |
-          dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "${{ secrets.NUGET_SOURCE }}"
-
-      - name: Restore NuGet cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: nugetcache-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            nugetcache-
-
       - name: Extract version from tag
         id: extract_version
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/Release\//}" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE }}'
-        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE }}
-
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_MONGODB }}'
-        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE_MONGODB }}
-
-      - name: Restore dependencies for '${{ env.PKG_NAME_WORKFLOWCORE_DSL }}'
-        run: dotnet restore ${{ env.PROJECT_WORKFLOWCORE_DSL }}
+      - name: Restore dependencies
+        run: dotnet restore
 
       - name: Build '${{ env.PKG_NAME_WORKFLOWCORE }}'
         run: dotnet build ${{ env.PROJECT_WORKFLOWCORE }} --configuration Release --no-restore
