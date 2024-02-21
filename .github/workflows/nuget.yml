@@ -29,9 +29,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-          source-url: ${{ secrets.NUGET_SOURCE }}
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Prepare to install packages
         id: prepare-to-install
