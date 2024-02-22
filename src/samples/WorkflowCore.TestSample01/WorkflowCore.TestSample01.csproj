@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WorkflowCore.Testing\WorkflowCore.Testing.csproj" />
-    <ProjectReference Include="..\..\WorkflowCore\WorkflowCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

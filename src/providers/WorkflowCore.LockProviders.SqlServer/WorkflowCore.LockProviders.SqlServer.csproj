@@ -9,10 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\WorkflowCore\WorkflowCore.csproj" />
+    <PackageReference Include="WorkflowCore" Version="3.9.2-dev-test-18" />
   </ItemGroup>
 
 </Project>
