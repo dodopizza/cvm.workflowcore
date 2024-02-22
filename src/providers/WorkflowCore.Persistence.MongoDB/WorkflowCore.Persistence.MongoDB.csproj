@@ -18,12 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WorkflowCore\WorkflowCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="WorkflowCore" Version="3.9.2-dev-test-18" />
   </ItemGroup>
 
 </Project>
